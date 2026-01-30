@@ -1,0 +1,71 @@
+
+spring:
+  config:
+    import: configserver:http://localhost:8089
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-57450036.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorization-grant-type: client_credientials
+            scope: internal,openid,profile,email
+            client-id: 0oaghy4eod6EPSxFr5d7
+            client-secret: n2H8QNK6T7hPHEDe2LolFRMnp7QfknI7dsejF3eErX_NYL9T6hRRqZn5lOf110MV
+        provider:
+          okta:
+           issuer-uri: https://dev-57450036.okta.com/oauth2/default
+    
+
+#
+#eureka.instance.ip-addr  ess=true
+#eureka.client.fetch-registry=true
+#
+#eureka.client.register-with-eureka=true
+#eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      USER_RATING_HOTEL_Breaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+
+  retry:
+    instances:
+      USER_RATING_HOTEL_Breaker:
+            max-attempts: 3
+            wait-duration: 5s 
+            
+            
+            
+  ratelimiter:
+    instances:
+      UserRateLimiter:
+        limit-refresh-period: 4s
+        limit-for-period: 2
+        timeout-duration: 0s
+        
+        
+        
+okta:
+  oauth2:
+    issuer: https://dev-57450036.okta.com/oauth2/default 
+    audience: api://default
+    
+    
+
+
+
+
