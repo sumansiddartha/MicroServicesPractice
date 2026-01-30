@@ -1,0 +1,9 @@
+package com.lcwd.hotel.Hotel.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.lcwd.hotel.Hotel.Entities.Hotel;
+
+public interface HotelRepository extends JpaRepository<Hotel, String>{
+
+}
